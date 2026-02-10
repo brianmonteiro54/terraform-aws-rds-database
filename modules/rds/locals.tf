@@ -24,7 +24,11 @@ locals {
   storage_type = var.iops != null ? (var.iops >= 64000 ? "io2" : "io1") : var.storage_type
   
   # Auto-calculate IOPS for gp3 if not specified
-  calculated_iops = var.storage_type == "gp3" && var.iops == null ? min(max(3000, var.allocated_storage * 3), 16000) : var.iops
+  calculated_iops = (
+  var.storage_type == "gp3" &&
+  var.iops == null &&
+  var.allocated_storage >= 400
+) ? min(max(3000, var.allocated_storage * 3), 16000) : var.iops
 
   # Subnet group name
   subnet_group_name = var.create_subnet_group ? aws_db_subnet_group.this[0].name : var.db_subnet_group_name
