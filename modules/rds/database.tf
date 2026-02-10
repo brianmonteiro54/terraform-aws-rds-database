@@ -111,10 +111,9 @@ resource "aws_db_instance" "this" {
   }
 
   # Prevent issues with monitoring role - only depend if creating role
-  depends_on = var.create_monitoring_role && var.enhanced_monitoring_enabled ? [
-    aws_iam_role_policy_attachment.enhanced_monitoring[0]
-  ] : []
-
+depends_on = [
+    aws_iam_role_policy_attachment.enhanced_monitoring
+  ]
   lifecycle {
     ignore_changes = [
       # Ignore changes to snapshot_identifier after creation

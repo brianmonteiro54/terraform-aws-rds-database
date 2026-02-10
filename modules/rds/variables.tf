@@ -285,7 +285,7 @@ variable "performance_insights_kms_key_id" {
 variable "enhanced_monitoring_enabled" {
   description = "Enable enhanced monitoring. NOTE: Requires IAM role creation - not available in AWS Academy"
   type        = bool
-  default     = false  # Changed to false for AWS Academy compatibility
+  default     = false 
 }
 
 variable "monitoring_interval" {
@@ -303,7 +303,7 @@ variable "monitoring_role_arn" {
 variable "create_monitoring_role" {
   description = "Create IAM role for enhanced monitoring. Set to false for AWS Academy"
   type        = bool
-  default     = false  # Changed to false for AWS Academy
+  default     = false  
 }
 
 # =============================================================================
