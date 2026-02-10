@@ -8,8 +8,8 @@ variable "create_db_instance" {
   default     = true
 }
 
-variable "name" {
-  description = "Name to be used on all resources as prefix"
+variable "db_identifier" {
+  description = "Unique identifier for the RDS instance"
   type        = string
 }
 

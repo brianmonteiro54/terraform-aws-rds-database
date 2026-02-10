@@ -4,7 +4,7 @@
 
 locals {
   # Database identifier
-  db_identifier = var.identifier
+  db_identifier = var.db_identifier
 
   # Engine version - use data source if not specified
   engine_version = coalesce(
