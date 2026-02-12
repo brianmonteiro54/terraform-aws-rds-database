@@ -17,27 +17,30 @@ locals {
 
   # Backup configuration
   backup_retention_period = var.backup_retention_period
-  backup_window          = var.backup_window
-  maintenance_window     = var.maintenance_window
+  backup_window           = var.backup_window
+  maintenance_window      = var.maintenance_window
 
   # Storage configuration
   storage_type = var.iops != null ? (var.iops >= 64000 ? "io2" : "io1") : var.storage_type
-  
+
   # Auto-calculate IOPS for gp3 if not specified
   calculated_iops = (
-  var.storage_type == "gp3" &&
-  var.iops == null &&
-  var.allocated_storage >= 400
-) ? min(max(3000, var.allocated_storage * 3), 16000) : var.iops
+    var.storage_type == "gp3" &&
+    var.iops == null &&
+    var.allocated_storage >= 400
+  ) ? min(max(3000, var.allocated_storage * 3), 16000) : var.iops
 
   # Subnet group name
   subnet_group_name = var.create_subnet_group ? aws_db_subnet_group.this[0].name : var.db_subnet_group_name
 
-  # Security group IDs
-  vpc_security_group_ids = var.vpc_security_group_ids
+  # Security group IDs - use created security group or provided IDs
+  vpc_security_group_ids = var.create_security_group ? concat(
+    [aws_security_group.this[0].id],
+    var.vpc_security_group_ids
+  ) : var.vpc_security_group_ids
 
   # Performance Insights
-  performance_insights_enabled = var.performance_insights_enabled
+  performance_insights_enabled   = var.performance_insights_enabled
   performance_insights_retention = var.performance_insights_enabled ? var.performance_insights_retention_period : null
 
   # Monitoring

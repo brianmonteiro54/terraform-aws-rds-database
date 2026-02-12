@@ -2,12 +2,6 @@
 # Data Sources
 # =============================================================================
 
-# Current AWS region
-data "aws_region" "current" {}
-
-# Current AWS account ID
-data "aws_caller_identity" "current" {}
-
 # Current AWS partition
 data "aws_partition" "current" {}
 

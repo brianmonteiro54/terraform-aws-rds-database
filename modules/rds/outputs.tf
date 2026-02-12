@@ -184,3 +184,27 @@ output "get_password_command" {
   description = "AWS CLI command to retrieve the master password from Secrets Manager"
   value       = var.create_db_instance && var.manage_master_user_password ? "aws secretsmanager get-secret-value --secret-id ${try(aws_db_instance.this[0].master_user_secret[0].secret_arn, "")} --query SecretString --output text | jq -r .password" : null
 }
+
+# =============================================================================
+# Security Group Outputs
+# =============================================================================
+
+output "security_group_id" {
+  description = "The ID of the security group"
+  value       = try(aws_security_group.this[0].id, null)
+}
+
+output "security_group_arn" {
+  description = "The ARN of the security group"
+  value       = try(aws_security_group.this[0].arn, null)
+}
+
+output "security_group_name" {
+  description = "The name of the security group"
+  value       = try(aws_security_group.this[0].name, null)
+}
+
+output "all_security_group_ids" {
+  description = "List of all security group IDs attached to the RDS instance"
+  value       = local.vpc_security_group_ids
+}

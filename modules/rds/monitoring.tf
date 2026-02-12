@@ -4,7 +4,7 @@
 # NOTE: Enhanced Monitoring requires IAM role creation
 # AWS Academy does NOT allow IAM role creation
 # Therefore, enhanced monitoring is DISABLED by default in this module
-# 
+#
 # If you have a regular AWS account and want to enable it:
 # 1. Set enhanced_monitoring_enabled = true
 # 2. Set create_monitoring_role = true

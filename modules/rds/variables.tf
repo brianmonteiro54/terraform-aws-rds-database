@@ -17,13 +17,6 @@ variable "environment" {
   description = "Environment name (e.g., production, staging, development)"
   type        = string
 }
-
-variable "identifier" {
-  description = "The name of the RDS instance. If omitted, will use name-environment"
-  type        = string
-  default     = null
-}
-
 # =============================================================================
 # Engine Configuration
 # =============================================================================
@@ -194,12 +187,6 @@ variable "skip_final_snapshot" {
   default     = false
 }
 
-variable "final_snapshot_identifier_prefix" {
-  description = "Prefix for the final snapshot identifier"
-  type        = string
-  default     = "final"
-}
-
 variable "delete_automated_backups" {
   description = "Specifies whether to remove automated backups immediately after deletion"
   type        = bool
@@ -285,13 +272,13 @@ variable "performance_insights_kms_key_id" {
 variable "enhanced_monitoring_enabled" {
   description = "Enable enhanced monitoring. NOTE: Requires IAM role creation - not available in AWS Academy"
   type        = bool
-  default     = false 
+  default     = false
 }
 
 variable "monitoring_interval" {
   description = "The interval for enhanced monitoring metrics (0, 1, 5, 10, 15, 30, 60). 0 = disabled"
   type        = number
-  default     = 0  # Changed to 0 (disabled) for AWS Academy
+  default     = 0 # Changed to 0 (disabled) for AWS Academy
 }
 
 variable "monitoring_role_arn" {
@@ -303,7 +290,7 @@ variable "monitoring_role_arn" {
 variable "create_monitoring_role" {
   description = "Create IAM role for enhanced monitoring. Set to false for AWS Academy"
   type        = bool
-  default     = false  
+  default     = false
 }
 
 # =============================================================================
@@ -329,7 +316,7 @@ variable "deletion_protection" {
 variable "iam_database_authentication_enabled" {
   description = "Specifies whether IAM database authentication is enabled"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "ca_cert_identifier" {
@@ -404,4 +391,45 @@ variable "timeouts" {
     delete = optional(string, "60m")
   })
   default = {}
+}
+
+# =============================================================================
+# Security Group Variables
+# =============================================================================
+
+variable "create_security_group" {
+  description = "Whether to create a security group for the RDS instance"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_id" {
+  description = "VPC ID where the security group will be created"
+  type        = string
+  default     = null
+}
+
+# =============================================================================
+# Security Group Rules
+# =============================================================================
+
+variable "security_group_ingress_rules" {
+  description = "List of ingress rules for the security group."
+  type        = list(any)
+  default     = []
+}
+
+variable "security_group_egress_rules" {
+  description = "List of egress rules for the security group."
+
+  type = list(any)
+  default = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow all outbound traffic"
+    }
+  ]
 }

@@ -3,6 +3,8 @@
 # =============================================================================
 
 resource "aws_db_instance" "this" {
+  # checkov:skip=CKV_AWS_118: Enhanced Monitoring requer IAM Role (bloqueado no AWS Academy)
+  # checkov:skip=CKV2_AWS_30: Query logging depende de parameter group / permissões (bloqueado no AWS Academy)
   count = var.create_db_instance ? 1 : 0
 
   # Identifier
@@ -16,8 +18,8 @@ resource "aws_db_instance" "this" {
   port           = local.port
 
   # Credentials
-  username                    = var.username
-  manage_master_user_password = var.manage_master_user_password
+  username                      = var.username
+  manage_master_user_password   = var.manage_master_user_password
   master_user_secret_kms_key_id = var.manage_master_user_password ? var.master_user_secret_kms_key_id : null
 
   # Storage
@@ -37,18 +39,18 @@ resource "aws_db_instance" "this" {
   multi_az               = var.multi_az
 
   # Backup
-  backup_retention_period = local.backup_retention_period
-  backup_window           = local.backup_window
-  skip_final_snapshot     = var.skip_final_snapshot
+  backup_retention_period   = local.backup_retention_period
+  backup_window             = local.backup_window
+  skip_final_snapshot       = var.skip_final_snapshot
   final_snapshot_identifier = local.final_snapshot_identifier
   delete_automated_backups  = var.delete_automated_backups
   copy_tags_to_snapshot     = var.copy_tags_to_snapshot
 
   # Maintenance
-  maintenance_window         = local.maintenance_window
-  auto_minor_version_upgrade = var.auto_minor_version_upgrade
+  maintenance_window          = local.maintenance_window
+  auto_minor_version_upgrade  = var.auto_minor_version_upgrade
   allow_major_version_upgrade = var.allow_major_version_upgrade
-  apply_immediately          = var.apply_immediately
+  apply_immediately           = var.apply_immediately
 
   # Parameter and Option Groups
   parameter_group_name = local.parameter_group_name
@@ -67,9 +69,9 @@ resource "aws_db_instance" "this" {
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
 
   # Security
-  deletion_protection                = var.deletion_protection
+  deletion_protection                 = var.deletion_protection
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
-  ca_cert_identifier                 = var.ca_cert_identifier
+  ca_cert_identifier                  = var.ca_cert_identifier
 
   # Blue/Green Deployment
   dynamic "blue_green_update" {
@@ -111,7 +113,7 @@ resource "aws_db_instance" "this" {
   }
 
   # Prevent issues with monitoring role - only depend if creating role
-depends_on = [
+  depends_on = [
     aws_iam_role_policy_attachment.enhanced_monitoring
   ]
   lifecycle {
