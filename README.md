@@ -34,12 +34,10 @@ Módulo reutilizável que provisiona instâncias RDS com boas práticas:
 
 ---
 
-## 🚀 Uso no ToggleMaster
-
-O projeto utiliza **3 instâncias RDS PostgreSQL**, uma para cada microsserviço:
+## 🚀 Uso
 
 ```hcl
-module "auth_service_rds" {
+module "rds" {
   source = "github.com/brianmonteiro54/terraform-aws-rds-database//modules/rds?ref=<commit-sha>"
 
   db_identifier = "auth-service"
