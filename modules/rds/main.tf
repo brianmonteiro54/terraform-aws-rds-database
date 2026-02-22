@@ -5,6 +5,7 @@
 resource "aws_db_instance" "this" {
   # checkov:skip=CKV_AWS_118: Enhanced Monitoring requer IAM Role (bloqueado no AWS Academy)
   # checkov:skip=CKV2_AWS_30: Query logging depende de parameter group / permissões (bloqueado no AWS Academy)
+  # checkov:skip=CKV_AWS_157: Multi-AZ disabled intentionally for dev cost control
   count = var.create_db_instance ? 1 : 0
 
   # Identifier
