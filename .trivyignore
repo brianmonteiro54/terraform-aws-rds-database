@@ -1,0 +1,22 @@
+# =============================================================================
+# Trivy Ignore File
+# Add check IDs here to suppress known/accepted findings.
+# Format: AVD-AWS-XXXX or one ID per line with optional comment.
+# =============================================================================
+
+# Enhanced Monitoring requires an IAM role which is blocked in AWS Academy.
+# Disabled by default (enhanced_monitoring_enabled = false, monitoring_interval = 0).
+# Enable manually in regular AWS accounts by setting enhanced_monitoring_enabled = true.
+AVD-AWS-0082
+
+# Performance Insights retention: default is 7 days (free tier).
+# Extending to 731 days requires additional cost — acceptable for dev/Academy environments.
+AVD-AWS-0079
+
+# RDS instance not using a customer-managed KMS key for Performance Insights.
+# Uses AWS-managed key by default. Provide performance_insights_kms_key_id for CMK.
+AVD-AWS-0078
+
+# Query logging via parameter group: requires specific parameter group configuration
+# and additional IAM permissions not available in AWS Academy (also skip-annotated in main.tf).
+AVD-AWS-0176
